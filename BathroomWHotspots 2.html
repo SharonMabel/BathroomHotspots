@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bild mit Hotspots</title>
+    <style>
+        .hotspot {
+            position: absolute;
+            border: 2px solid rgb(255, 21, 49);
+            background-color: rgba(255, 0, 0, 0.5);
+            cursor: pointer;
+        }
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="C:\Uni\Semester\SoSe24\biw215 - Lehren und Lernen\Digital Learning Materials\Bathroom Hotspots\openart-51cc071a69c8445e969971b827d0acff_raw.jpg" alt="Bild mit Hotspots">
+        <div class="hotspot" style="top: 20%; left: 30%; width: 10px; height: 10px;" data-tooltip="Spiegel"></div>
+        <div class="hotspot" style="top: 50%; left: 60%; width: 10px; height: 10px;" data-tooltip="Hotspot 2 geklickt!"></div>
+        <div id="tooltip" class="tooltip"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hotspots = document.querySelectorAll('.hotspot');
+            const tooltip = document.getElementById('tooltip');
+
+            hotspots.forEach(hotspot => {
+                hotspot.addEventListener('click', function(event) {
+                    const tooltipText = this.getAttribute('data-tooltip');
+                    tooltip.innerHTML = tooltipText;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = event.pageX + 'px';
+                    tooltip.style.top = event.pageY + 'px';
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!event.target.classList.contains('hotspot')) {
+                    tooltip.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
