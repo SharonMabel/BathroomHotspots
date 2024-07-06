@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OER - Bathroom with hotspots</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #F3F1E4; /* Hintergrundfarbe */
+        }
+
+        .container {
+            position: relative;
+            display: inline-block;
+            max-width: 90%; /* Maximal 90% der Bildschirmbreite */
+        }
+
+        .container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px; /* Runde Ecken für ein nahtloses Erscheinungsbild */
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 40px; /* 20% größer als vorher (10px) */
+            height: 40px; /* 20% größer als vorher (10px) */
+            border-radius: 50%;
+            border: 2px solid rgba(255, 21, 49, 0.8);
+            background-color: rgba(255, 0, 0, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition for background and border color */
+        }
+
+        .hotspot.clicked {
+            background-color: rgba(0, 128, 0, 0.5);
+            border-color: rgba(0, 128, 0, 0.8);
+        }
+
+        .hotspot::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: rgba(175, 218, 225, 0.5);
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .hotspot:hover::after {
+            opacity: 0;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+            font-family: 'Arial', sans-serif;
+            font-size: 132%; /* 120% + 10% = 132% */
+            font-weight: bold;
+        }
+
+        .tooltip .blue {
+            color: #6699FF; /* Helleres Blau */
+        }
+
+        .tooltip .red {
+            color: #DE1752; /* Angenehmeres Rot */
+        }
+
+        .visible-tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/BathRoomImageArtweaverFinal.jpg" alt="Bild mit Hotspots">
+        <div class="hotspot" style="top: 23%; left: 28%;" data-tooltip="<span class='blue'>S</span><span class='blue'>p</span><span class='blue'>i</span><span class='blue'>e</span><span class='red'>g</span><span class='red'>e</span><span class='red'>l</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Spiegel.mp3"></div>
+        <div class="hotspot" style="top: 40%; left: 60%;" data-tooltip="<span class='blue'>H</span><span class='blue'>a</span><span class='blue'>n</span><span class='blue'>d</span><span class='red'>t</span><span class='red'>ü</span><span class='blue'>c</span><span class='blue'>h</span><span class='blue'>e</span><span class='blue'>r</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Handt%C3%BCcher.mp3"></div>
+        <div class="hotspot" style="top: 60%; left: 60%;" data-tooltip="<span class='blue'>B</span><span class='blue'>a</span><span class='red'>d</span><span class='red'>e</span><span class='blue'>w</span><span class='blue'>a</span><span class='blue'>n</span><span class='red'>n</span><span class='red'>e</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Badewanne.mp3"></div>
+        <div class="hotspot" style="top: 55%; left: 13%;" data-tooltip="<span class='blue'>T</span><span class='blue'>o</span><span class='red'>i</span><span class='blue'>l</span><span class='blue'>e</span><span class='blue'>t</span><span class='red'>t</span><span class='red'>e</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Toilette.mp3"></div>
+        <div class="hotspot" style="top: 48%; left: 20%;" data-tooltip="<span class='blue'>Z</span><span class='blue'>a</span><span class='blue'>h</span><span class='blue'>n</span><span class='red'>b</span><span class='red'>ü</span><span class='red'>r</span><span class='blue'>s</span><span class='blue'>t</span><span class='blue'>e</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Zahnb%C3%BCrste.mp3"></div>
+        <div class="hotspot" style="top: 46%; left: 35%;" data-tooltip="<span class='blue'>S</span><span class='blue'>e</span><span class='blue'>i</span><span class='red'>f</span><span class='red'>e</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Seife.mp3"></div>
+        <div class="hotspot" style="top: 54%; left: 27%;" data-tooltip="<span class='blue'>W</span><span class='blue'>a</span><span class='blue'>s</span><span class='blue'>c</span><span class='blue'>h</span><span class='red'>b</span><span class='red'>e</span><span class='blue'>c</span><span class='blue'>k</span><span class='blue'>e</span><span class='blue'>n</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Waschbecken.mp3"></div>
+        <div class="hotspot" style="top: 55%; left: 85%;" data-tooltip="<span class='blue'>D</span><span class='blue'>u</span><span class='red'>s</span><span class='red'>c</span><span class='red'>h</span><span class='red'>e</span>" data-audio="https://raw.githubusercontent.com/SharonMabel/BathroomHotspots/main/Dusche.mp3" id="Dusche"></div>
+        <div id="tooltip-container"></div> <!-- Container für die Tooltips -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hotspots = document.querySelectorAll('.hotspot');
+            const tooltipContainer = document.getElementById('tooltip-container');
+            const tooltipMap = new Map();
+
+            hotspots.forEach(hotspot => {
+                hotspot.addEventListener('click', function (event) {
+                    const tooltipText = this.getAttribute('data-tooltip');
+                    const existingTooltip = tooltipMap.get(this);
+                    const containerRect = tooltipContainer.parentElement.getBoundingClientRect();
+                    const hotspotRect = this.getBoundingClientRect();
+
+                    if (existingTooltip) {
+                        tooltipContainer.removeChild(existingTooltip);
+                        tooltipMap.delete(this);
+                        this.classList.remove('clicked');
+                    } else {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip visible-tooltip';
+                        tooltip.innerHTML = tooltipText;
+
+                        tooltip.style.left = (hotspotRect.left - containerRect.left) + 'px';
+                        tooltip.style.top = (hotspotRect.top - containerRect.top + hotspotRect.height) + 'px'; // Position below the hotspot
+
+                        tooltipContainer.appendChild(tooltip);
+                        tooltipMap.set(this, tooltip);
+
+                        // Ändere die Hintergrundfarbe des Hotspots zu grün
+                        this.classList.add('clicked');
+
+                        // Audio abspielen
+                        const audioSrc = this.getAttribute('data-audio');
+                        const audio = new Audio(audioSrc);
+                        audio.play();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
